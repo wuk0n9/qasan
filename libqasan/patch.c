@@ -210,7 +210,7 @@ void __libqasan_hotpatch(void) {
   HOTPATCH(memrchr)
   HOTPATCH(memmem)
   HOTPATCH(bzero)
-  HOTPATCH(explicit_bzero)
+  //HOTPATCH(explicit_bzero)
   HOTPATCH(bcmp)
 
   HOTPATCH(strchr)

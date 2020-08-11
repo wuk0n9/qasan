@@ -25,6 +25,9 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 #include "libqasan.h"
 #include "map_macro.h"
+#ifdef __BIONIC__
+#include <bits/struct_file.h>
+#endif
 
 char *(*__lq_libc_fgets)(char *, int, FILE *);
 int (*__lq_libc_atoi)(const char *);
@@ -296,13 +299,9 @@ void *memmem(const void *haystack, size_t haystacklen, const void *needle,
 
 }
 
-#ifdef __BIONIC__
-void __bionic_bzero(void *s, size_t n) {
-
-#else
+#ifndef __BIONIC__
 void   bzero(void *s, size_t n) {
 
-#endif
 
   void *rtv = __builtin_return_address(0);
 
@@ -311,6 +310,7 @@ void   bzero(void *s, size_t n) {
   __libqasan_memset(s, 0, n);
 
 }
+#endif
 
 void explicit_bzero(void *s, size_t n) {
 
